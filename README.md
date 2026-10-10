@@ -22,5 +22,4 @@ The system detects low stock, recommends reorder quantities, compares supplier q
 - `evidence/` - Traces, screenshots, demo materials
 - `knowledge/` - Metadata only (no restricted data)
 
-## Current Status
-**Week 1 completed** – Project Charter, User Stories, AI Boundary Matrix and initial architecture delivered.
+#

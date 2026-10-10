@@ -1,0 +1,32 @@
+[
+  {
+    "item_id": "ITM-001",
+    "item_name": "Cement 50kg",
+    "current_stock": 18,
+    "reorder_point": 25,
+    "reorder_qty": 50,
+    "avg_monthly_usage": 40,
+    "lead_time_days": 7,
+    "unit": "bags"
+  },
+  {
+    "item_id": "ITM-002",
+    "item_name": "Iron Sheets Gauge 28",
+    "current_stock": 60,
+    "reorder_point": 40,
+    "reorder_qty": 100,
+    "avg_monthly_usage": 35,
+    "lead_time_days": 10,
+    "unit": "pieces"
+  },
+  {
+    "item_id": "ITM-003",
+    "item_name": "Nail 3-inch",
+    "current_stock": 5,
+    "reorder_point": 15,
+    "reorder_qty": 30,
+    "avg_monthly_usage": 20,
+    "lead_time_days": 4,
+    "unit": "kg"
+  }
+]

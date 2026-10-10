@@ -1,0 +1,38 @@
+[
+  {
+    "quotation_id": "QT-1001",
+    "item_id": "ITM-001",
+    "supplier_name": "Kampala Cement Distributors",
+    "unit_price": 32000,
+    "currency": "UGX",
+    "lead_time_days": 5,
+    "valid_until": "2026-10-15"
+  },
+  {
+    "quotation_id": "QT-1002",
+    "item_id": "ITM-001",
+    "supplier_name": "Uganda Building Supplies",
+    "unit_price": 33500,
+    "currency": "UGX",
+    "lead_time_days": 3,
+    "valid_until": "2026-10-20"
+  },
+  {
+    "quotation_id": "QT-2001",
+    "item_id": "ITM-002",
+    "supplier_name": "Roofing Masters Ltd",
+    "unit_price": 28500,
+    "currency": "UGX",
+    "lead_time_days": 7,
+    "valid_until": "2026-10-10"
+  },
+  {
+    "quotation_id": "QT-3001",
+    "item_id": "ITM-003",
+    "supplier_name": "Hardware Link Uganda",
+    "unit_price": 8500,
+    "currency": "UGX",
+    "lead_time_days": 4,
+    "valid_until": "2026-11-30"
+  }
+]
