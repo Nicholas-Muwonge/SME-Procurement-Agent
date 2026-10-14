@@ -11,9 +11,6 @@ from tools import TOOLS, call_tool
 
 client = OpenAI()
 
-# ----------------------------
-# Logging setup
-# ----------------------------
 LOG_DIR = "evidence/traces"
 os.makedirs(LOG_DIR, exist_ok=True)
 
@@ -69,7 +66,6 @@ def run_agent(user_message: str, max_turns: int = 6) -> str:
         {"role": "user", "content": user_message}
     ]
 
-    # This will store the complete trace for evidence
     trace = {
         "timestamp_start": datetime.now().isoformat(),
         "user_message": user_message,
@@ -102,7 +98,6 @@ def run_agent(user_message: str, max_turns: int = 6) -> str:
         msg = response.choices[0].message
         messages.append(msg)
 
-        # Case 1: Model wants to call one or more tools
         if msg.tool_calls:
             for tool_call in msg.tool_calls:
                 tool_name = tool_call.function.name
@@ -114,7 +109,6 @@ def run_agent(user_message: str, max_turns: int = 6) -> str:
                 print(f"\n→ [{turn_number}] Calling tool: {tool_name}")
                 print(f"  Arguments: {arguments}")
 
-                # Execute the real tool
                 start_time = datetime.now()
                 tool_result = call_tool(tool_name, arguments)
                 end_time = datetime.now()
@@ -122,7 +116,6 @@ def run_agent(user_message: str, max_turns: int = 6) -> str:
 
                 print(f"  Result: {json.dumps(tool_result, indent=2)}")
 
-                # Record this tool call in the trace
                 tool_call_record = {
                     "tool_name": tool_name,
                     "arguments": arguments,
@@ -132,7 +125,6 @@ def run_agent(user_message: str, max_turns: int = 6) -> str:
                 }
                 turn_data["tool_calls"].append(tool_call_record)
 
-                # Send result back to the model
                 messages.append({
                     "role": "tool",
                     "tool_call_id": tool_call.id,
@@ -141,7 +133,6 @@ def run_agent(user_message: str, max_turns: int = 6) -> str:
 
             trace["turns"].append(turn_data)
 
-        # Case 2: Model produced a final natural language answer
         else:
             final_answer = msg.content
             turn_data["assistant_message"] = final_answer
@@ -154,7 +145,6 @@ def run_agent(user_message: str, max_turns: int = 6) -> str:
             print("\nASSISTANT:")
             print(final_answer)
 
-            # Save the full trace for evidence
             save_trace(trace)
             return final_answer
 
@@ -164,12 +154,7 @@ def run_agent(user_message: str, max_turns: int = 6) -> str:
     save_trace(trace)
     return "Maximum turns reached. Please try a simpler request."
 
-
-# ----------------------------
-# Demo
-# ----------------------------
 if __name__ == "__main__":
-    # Example full flow
     run_agent(
         "Check the current stock of ITM-001 (Cement). "
         "If it is below the reorder point, create a draft requisition "

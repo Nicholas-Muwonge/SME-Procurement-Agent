@@ -8,15 +8,8 @@ import os
 from datetime import datetime
 from typing import List, Dict, Optional
 
-# ----------------------------
-# Configuration
-# ----------------------------
 MEMORY_FILE = "data/preferred_suppliers.json"
 
-
-# ----------------------------
-# Helper functions
-# ----------------------------
 def _load_memory() -> List[Dict]:
     """Load preferred suppliers from disk."""
     if not os.path.exists(MEMORY_FILE):
@@ -34,10 +27,6 @@ def _save_memory(data: List[Dict]) -> None:
     with open(MEMORY_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, default=str)
 
-
-# ----------------------------
-# Public Memory API
-# ----------------------------
 def add_preferred_supplier(
     item_id: str,
     supplier_name: str,
@@ -56,8 +45,7 @@ def add_preferred_supplier(
         }
 
     memory = _load_memory()
-
-    # Remove existing preference for the same item + supplier (if any)
+    
     memory = [
         m for m in memory
         if not (m["item_id"] == item_id and m["supplier_name"].lower() == supplier_name.lower())
@@ -124,17 +112,7 @@ def clear_all_preferences() -> Dict:
     _save_memory([])
     return {"success": True, "message": "All preferred supplier preferences have been cleared"}
 
-
-# ----------------------------
-# Helper used by the agent
-# ----------------------------
 def rank_quotations_with_preferences(item_id: str, quotations: List[Dict]) -> List[Dict]:
-    """
-    Given a list of quotations for an item, move preferred suppliers to the top
-    and mark them clearly.
-    
-    This function only reorders and labels – it never selects a supplier.
-    """
     preferred = get_preferred_suppliers(item_id)
     preferred_names = {p["supplier_name"].lower() for p in preferred}
 
@@ -154,5 +132,4 @@ def rank_quotations_with_preferences(item_id: str, quotations: List[Dict]) -> Li
             q_with_label["is_preferred"] = False
             other_quotes.append(q_with_label)
 
-    # Preferred first, then the rest (already sorted by price if you sorted earlier)
     return preferred_quotes + other_quotes
