@@ -8,7 +8,7 @@ import os
 from datetime import datetime, date
 from typing import Dict, Any, List
 import uuid
-from memory import rank_quotations_with_preferences
+from procurement.memory import rank_quotations_with_preferences
 
 # ----------------------------
 # Paths to synthetic data
@@ -78,9 +78,7 @@ def get_inventory(item_id: str) -> Dict[str, Any]:
         "lead_time_days": item.get("lead_time_days", 0),
         "unit": item.get("unit", "pcs"),
         "status": status,
-        "quotations": rank_quotations,
-        #"message": f"Found {len(matching)} quotation(s). Preferred suppliers (if any) are shown first."
-    
+        "message": f"Inventory record for item '{item_id}' retrieved successfully."    
     }
 
 

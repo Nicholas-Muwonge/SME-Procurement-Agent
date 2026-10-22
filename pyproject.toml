@@ -1,0 +1,29 @@
+[project]
+name = "sme-procurement-agent"
+version = "0.1.0"
+description = "SME procurement agent"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "langchain>=1.3.10",
+    "langchain-openai",
+    "langgraph>=1.0.0",
+    "python-dotenv>=1.0.1",
+    "chromadb",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.15,<0.9.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "anyio>=4.7.0",
+    "langgraph-cli[inmem]>=0.4.10",
+    "pytest>=9.0.3",
+    "ruff>=0.8.0",
+]
+
+[tool.uv.build-backend]
+module-name = "procurement"
+source-include = ["langgraph.json", ".env.example", "Makefile", "tests/**"]

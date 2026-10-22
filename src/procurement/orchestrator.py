@@ -7,7 +7,7 @@ import json
 import os
 from datetime import datetime
 from openai import OpenAI
-from tools import TOOLS, call_tool
+from procurement.tools import TOOLS, call_tool
 
 client = OpenAI()
 

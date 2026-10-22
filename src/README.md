@@ -1,7 +1,5 @@
-RN:  pip install openai chromadb
-run: python rag_pipeline.py
 
-What this orchestrator does
+# What this orchestrator does
 
 Sends the user message + system prompt to the model
 Lets the model decide which tool(s) to call

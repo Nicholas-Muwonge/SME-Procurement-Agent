@@ -1,0 +1,9 @@
+{
+  "python_version": "3.13",
+  "dependencies": ["."],
+  "graphs": {
+    "agent": "./src/procurement/graph.py:graph"
+  },
+  "env": ".env",
+  "image_distro": "wolfi"
+}
