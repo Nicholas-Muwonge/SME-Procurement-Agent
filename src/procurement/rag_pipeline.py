@@ -14,13 +14,7 @@ PERSIST_DIRECTORY = "knowledge/vector_store"
 DOCUMENTS_PATH = "knowledge/documents/*.md"
 TOP_K = 6
 
-client = OpenAI(api_key=OPENAI_API_KEY)
 
-# Use OpenAI embeddings via Chroma
-openai_ef = embedding_functions.OpenAIEmbeddingFunction(
-    api_key=OPENAI_API_KEY,
-    model_name="text-embedding-3-small"
-)
 
 # ----------------------------
 # 1. Load and Chunk Documents
@@ -66,7 +60,7 @@ def get_or_create_collection():
 
     collection = chroma_client.get_or_create_collection(
         name="sme_procurement_corpus",
-        embedding_function=openai_ef,
+        #embedding_function=openai_ef,
         metadata={"hnsw:space": "cosine"}
     )
     return collection
@@ -150,7 +144,7 @@ Question: {question}
 """
 
     # Call the model
-    response = client.chat.completions.create(
+    response = OpenAI(api_key=OPENAI_API_KEY).chat.completions.create(
         model=MODEL_NAME,
         messages=[
             {"role": "system", "content": RAG_SYSTEM_PROMPT},

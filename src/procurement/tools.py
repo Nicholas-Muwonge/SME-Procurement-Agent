@@ -40,7 +40,6 @@ def find_item(data: List[Dict], item_id: str) -> Dict | None:
             return item
     return None
 
-
 # ----------------------------
 # TOOL 1: get_inventory
 # ----------------------------
@@ -206,6 +205,23 @@ def create_draft_requisition(
         "message": "Draft requisition created successfully. Awaiting human approval."
     }
 
+def search_knowledge_base(query: str, top_k: int = 4) -> Dict[str, Any]:
+    """Search procurement policy documents and return the most relevant passages."""
+    if not query or not isinstance(query, str):
+        return {"error": "ValidationError", "message": "query is required"}
+
+    # Imported here so the graph still loads if the RAG dependencies are missing
+    from procurement import rag_pipeline as rp
+
+    collection = rp.get_or_create_collection()
+    if collection.count() == 0:
+        rp.index_documents(rp.load_and_chunk_documents(), collection)
+
+    results = rp.retrieve(query, collection, top_k=top_k)
+    return {
+        "query": query,
+        "passages": [{"source_id": r["source_id"], "text": r["text"]} for r in results],
+    }
 
 # ----------------------------
 # OpenAI Tools Definition
@@ -277,7 +293,22 @@ TOOLS = [
                 "additionalProperties": False
             }
         }
-    }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "search_knowledge_base",
+            "description": "Search the company's procurement policy documents (reorder rules, approval rules, supplier policies). Returns passages with Source IDs.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string", "description": "What to look up, e.g. 'rule for flagging reorder'"}
+                },
+                "required": ["query"],
+                "additionalProperties": False
+            }
+        }
+    },
 ]
 
 
@@ -285,7 +316,8 @@ TOOLS = [
 TOOL_FUNCTIONS = {
     "get_inventory": get_inventory,
     "get_quotations": get_quotations,
-    "create_draft_requisition": create_draft_requisition
+    "create_draft_requisition": create_draft_requisition,
+    "search_knowledge_base": search_knowledge_base
 }
 
 

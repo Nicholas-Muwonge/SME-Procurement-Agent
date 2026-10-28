@@ -9,7 +9,8 @@ from datetime import datetime
 from openai import OpenAI
 from procurement.tools import TOOLS, call_tool
 
-client = OpenAI()
+def _client():
+    return OpenAI()
 
 LOG_DIR = "evidence/traces"
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -39,6 +40,7 @@ You may only use these tools:
 - get_inventory
 - get_quotations
 - create_draft_requisition
+- search_knowledge_base
 
 You must never attempt to:
 - Approve a requisition
@@ -48,6 +50,7 @@ You must never attempt to:
 - Commit funds or make payments
 
 ### Behaviour Rules
+- Before deciding on a reorder, call search_knowledge_base to check the relevant policy (reorder rules, quotation validity, approval requirements). State policy only from what it returns and cite the Source IDs (e.g. SRC-001). If it returns nothing relevant, say "Insufficient information in the knowledge base."
 - Always use tools to obtain current data. Never invent stock levels, prices, or quotations.
 - After creating a draft requisition, you must stop and tell the user that the draft is waiting for human approval.
 - If the item does not need reordering, clearly say so and stop.
@@ -87,7 +90,7 @@ def run_agent(user_message: str, max_turns: int = 6) -> str:
             "assistant_message": None
         }
 
-        response = client.chat.completions.create(
+        response = _client().chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
             tools=TOOLS,
