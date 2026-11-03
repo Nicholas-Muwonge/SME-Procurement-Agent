@@ -24,8 +24,15 @@ REQUISITIONS_FILE = "data/requisitions.json"   # will be created automatically
 def load_json(path: str) -> List[Dict]:
     if not os.path.exists(path):
         return []
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+    
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            content = f.read().strip()
+            if not content:
+                return []
+            return json.loads(content)
+    except json.JSONDecodeError:
+        return []
 
 
 def save_json(path: str, data: List[Dict]):

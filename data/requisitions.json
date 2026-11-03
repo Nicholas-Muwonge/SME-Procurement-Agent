@@ -1,0 +1,15 @@
+[
+  {
+    "requisition_id": "PR-35D769E8",
+    "item_id": "ITM-001",
+    "item_name": "Cement 50kg",
+    "quantity": 50,
+    "unit": "bags",
+    "justification": "Current stock (18) is below reorder point (25). Reorder required per policy (SRC-001).",
+    "requested_by": "Nicholas",
+    "status": "Draft \u2013 Awaiting Approval",
+    "created_at": "2026-11-03T11:22:37",
+    "approved_by": null,
+    "approved_at": null
+  }
+]

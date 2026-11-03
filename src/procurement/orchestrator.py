@@ -16,7 +16,8 @@ LOG_DIR = "evidence/traces"
 os.makedirs(LOG_DIR, exist_ok=True)
 
 def save_trace(trace: dict):
-    """Save a complete execution trace to a JSON file."""
+    """Save a complete execution trace to a JSON file.
+    Useful for offline auditing and evidence deliverables."""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"{LOG_DIR}/trace_{timestamp}.json"
     with open(filename, "w", encoding="utf-8") as f:
